@@ -1,4 +1,4 @@
-package com.javiersantos.whatsappbetaupdater.utils;
+package com.kill.whappro.utils;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -7,12 +7,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.SystemClock;
 
-import com.javiersantos.whatsappbetaupdater.Config;
-import com.javiersantos.whatsappbetaupdater.R;
-import com.javiersantos.whatsappbetaupdater.receivers.NotificationReceiver;
-
-import java.util.Currency;
-import java.util.Locale;
+import com.kill.whappro.receivers.NotificationReceiver;
 
 public class UtilsApp {
 
@@ -33,29 +28,6 @@ public class UtilsApp {
     public static Boolean isNotificationRunning(Context context) {
         Intent intent = new Intent(context, NotificationReceiver.class);
         return (PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_NO_CREATE) != null);
-    }
-
-    public static String[] getDonationArray(Context context) {
-        String[] donationArray = context.getResources().getStringArray(R.array.donate_amount);
-        for (int i = 0; i < donationArray.length; i++) {
-            donationArray[i] = String.format(donationArray[i], getPayPalSymbol());
-        }
-
-        return donationArray;
-    }
-
-    public static String generatePayPalDonationLink(String amount, String currency) {
-        return "https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=" + Config.PAYPAL_DONATION + "&currency_code=" + currency + "&amount=" + amount + "&item_name=Donation%20for%20%22Beta%20Updater%20for%20WhatsApp%22";
-    }
-
-    public static String getPayPalCurrency() {
-        Currency currency = Currency.getInstance(Locale.getDefault());
-        return currency.getCurrencyCode().equals("EUR") ? "EUR" : "USD";
-    }
-
-    private static String getPayPalSymbol() {
-        Currency currency = Currency.getInstance(Locale.getDefault());
-        return currency.getSymbol().equals("€") ? "€" : "$";
     }
 
     /**

@@ -1,4 +1,4 @@
-package com.javiersantos.whatsappbetaupdater.utils;
+package com.kill.whappro.utils;
 
 import android.app.Activity;
 import android.content.Context;
@@ -7,15 +7,15 @@ import android.view.View;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.javiersantos.whatsappbetaupdater.R;
-import com.javiersantos.whatsappbetaupdater.WhatsAppBetaUpdaterApplication;
-import com.javiersantos.whatsappbetaupdater.models.Update;
+import com.kill.whappro.R;
+import com.kill.whappro.WhatsAppBetaUpdaterApplication;
+import com.kill.whappro.models.Update;
 
 import java.io.File;
 
 public class UtilsDialog {
 
-    public static MaterialDialog.Builder showDownloadingDialog(Context context, UtilsEnum.DownloadType downloadType, String version) {
+    public static MaterialDialog.Builder showDownloadingDialog(Context context, String version) {
         Boolean showMinMax = false; // Show a max/min ratio to the left of the seek bar
 
         MaterialDialog.Builder builder = new MaterialDialog.Builder(context)
@@ -23,14 +23,7 @@ public class UtilsDialog {
                 .cancelable(false)
                 .negativeText(context.getResources().getString(android.R.string.cancel));
 
-        switch (downloadType) {
-            case WHATSAPP_APK:
-                builder.title(String.format(context.getResources().getString(R.string.downloading), context.getResources().getString(R.string.app_whatsapp), version));
-                break;
-            case UPDATE:
-                builder.title(String.format(context.getResources().getString(R.string.downloading), context.getResources().getString(R.string.app_name), version));
-                break;
-        }
+        builder.title(String.format(context.getResources().getString(R.string.downloading), context.getResources().getString(R.string.app_whatsapp), version));
 
         return builder;
     }
@@ -79,25 +72,6 @@ public class UtilsDialog {
                         appPreferences.setShowAppUpdate(false);
                     }
                 }).show();
-
-        return dialog;
-    }
-
-    public static MaterialDialog showDonateDialog(final Context context) {
-        MaterialDialog dialog = new MaterialDialog.Builder(context)
-                .title(context.getResources().getString(R.string.action_donate))
-                .content(String.format(context.getResources().getString(R.string.donate_description), context.getResources().getString(R.string.app_name)))
-                .items(UtilsApp.getDonationArray(context))
-                .itemsCallbackSingleChoice(1, new MaterialDialog.ListCallbackSingleChoice() {
-                    @Override
-                    public boolean onSelection(MaterialDialog dialog, View itemView, int which, CharSequence text) {
-                        context.startActivity(UtilsIntent.getPayPalIntent(text.toString()));
-                        return true;
-                    }
-                })
-                .positiveText(context.getResources().getString(R.string.button_paypal))
-                .negativeText(context.getResources().getString(android.R.string.cancel))
-                .show();
 
         return dialog;
     }

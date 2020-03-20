@@ -1,4 +1,4 @@
-package com.javiersantos.whatsappbetaupdater.utils;
+package com.kill.whappro.utils;
 
 public class UtilsEnum {
 

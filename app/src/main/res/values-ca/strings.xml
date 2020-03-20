@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Beta Updater per WhatsApp</string>
+    <string name="app_name">Updater per WhatsApp Pro</string>
     <string name="action_settings">Opcions</string>
-    <string name="action_donate">Donar</string>
     <string name="whatsapp_installed">Versió instal·lada</string>
     <string name="whatsapp_latest">Última versió</string>
     <string name="whatsapp_not_installed">No instal·lada</string>
@@ -12,7 +11,6 @@
     <string name="downloading">Baixant %1$s %2$s&#8230;</string>
     <string name="delete">Vols guardar l\'actualització?</string>
     <string name="delete_description">És possible guardar o eliminar l\'actalització baixada (APK). Què vols fer?</string>
-    <string name="donate_description">%s és una aplicació de codi lliure gratuïta i lliure de publicitat. Si vols ajudar amb el desenvolupament pots realitzar una donació. Gràcies.</string>
     <string name="app_update">L\'actualització %s està disponible</string>
     <string name="app_update_description">Una nova versió està llesta per baixar. Es recomana actualitzar a la última versió per a disposar de les últimes millores i solucions d\'errors.</string>
     <string name="button_delete">Eliminar</string>
@@ -20,7 +18,6 @@
     <string name="button_share">Compartir APK</string>
     <string name="button_update">Actualitza</string>
     <string name="button_disable_update">No mostrar-ho més</string>
-    <string name="button_paypal">Donar per PayPal</string>
     <string name="settings_category_preferences">Configuració</string>
     <string name="settings_category_notifications">Notificacions</string>
     <string name="settings_category_about">Quant a</string>

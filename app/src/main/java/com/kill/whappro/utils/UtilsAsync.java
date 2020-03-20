@@ -1,4 +1,4 @@
-package com.javiersantos.whatsappbetaupdater.utils;
+package com.kill.whappro.utils;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -6,11 +6,11 @@ import android.os.Environment;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.javiersantos.whatsappbetaupdater.Config;
-import com.javiersantos.whatsappbetaupdater.R;
-import com.javiersantos.whatsappbetaupdater.callback.UpdaterCallback;
-import com.javiersantos.whatsappbetaupdater.enums.UpdaterError;
-import com.javiersantos.whatsappbetaupdater.models.Update;
+import com.kill.whappro.Config;
+import com.kill.whappro.R;
+import com.kill.whappro.callback.UpdaterCallback;
+import com.kill.whappro.enums.UpdaterError;
+import com.kill.whappro.models.Update;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -78,7 +78,7 @@ public class UtilsAsync {
             path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/";
 
             // Configure cancel button and show progress dialog
-            MaterialDialog.Builder builder = UtilsDialog.showDownloadingDialog(context, downloadType, update.getLatestVersion());
+            MaterialDialog.Builder builder = UtilsDialog.showDownloadingDialog(context, update.getLatestVersion());
             builder.onNegative(new MaterialDialog.SingleButtonCallback() {
                 @Override
                 public void onClick(MaterialDialog dialog, DialogAction which) {
@@ -169,7 +169,7 @@ public class UtilsAsync {
             File file = new File(path, filename);
             if (file_length != null && file.length() == file_length) {
                 // File download: OK
-                context.startActivity(UtilsIntent.getOpenAPKIntent(file));
+                context.startActivity(UtilsIntent.getOpenAPKIntent(file, context));
                 switch (downloadType) {
                     case WHATSAPP_APK:
                         UtilsDialog.showSaveAPKDialog(context, file, update.getLatestVersion());

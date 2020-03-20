@@ -1,9 +1,9 @@
-package com.javiersantos.whatsappbetaupdater.utils;
+package com.kill.whappro.utils;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
 
-import com.javiersantos.whatsappbetaupdater.models.Version;
+import com.kill.whappro.models.Version;
 
 public class UtilsWhatsApp {
 

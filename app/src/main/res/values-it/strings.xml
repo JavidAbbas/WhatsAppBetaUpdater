@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Beta Updater per WhatsApp</string>
+    <string name="app_name">Updater per WhatsApp Pro</string>
     <string name="action_settings">Impostazioni</string>
-    <string name="action_donate">Dona</string>
     <string name="whatsapp_installed">Versione installata</string>
     <string name="whatsapp_latest">Ultima versione</string>
     <string name="whatsapp_not_installed">Non installato</string>
@@ -12,7 +11,6 @@
     <string name="downloading">Scaricamento di %1$s %2$s&#8230;</string>
     <string name="delete">Vuoi mantenere l\'aggiornamento?</string>
     <string name="delete_description">È possibile tenere o cancellare l\'aggiornamento scaricato (APK). Che cosa vuoi fare?</string>
-    <string name="donate_description">%s è un\'app open source completamente gratuita e senza pubblicità. Se vuoi contribuire con lo sviluppo, ne sarei molto grato.</string>
     <string name="app_update">L\'aggiornamento %s è disponibile</string>
     <string name="app_update_description">Una nuova versione è pronta per lo scaricamento. Devi aggiornare all\'ultima versione per avere tutti i miglioramenti e le correzioni di bug.</string>
     <string name="button_delete">Elimina</string>
@@ -20,7 +18,6 @@
     <string name="button_share">Condividi APK</string>
     <string name="button_update">Aggiorna</string>
     <string name="button_disable_update">Non visualizzare più</string>
-    <string name="button_paypal">Dona con PayPal</string>
     <string name="settings_category_preferences">Preferenze</string>
     <string name="settings_category_notifications">Notifiche</string>
     <string name="settings_category_about">Informazioni</string>

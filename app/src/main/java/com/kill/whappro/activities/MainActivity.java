@@ -1,4 +1,4 @@
-package com.javiersantos.whatsappbetaupdater.activities;
+package com.kill.whappro.activities;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -14,53 +14,58 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.javiersantos.whatsappbetaupdater.R;
-import com.javiersantos.whatsappbetaupdater.WhatsAppBetaUpdaterApplication;
-import com.javiersantos.whatsappbetaupdater.asyncs.GetLatestVersion;
-import com.javiersantos.whatsappbetaupdater.callback.UpdaterCallback;
-import com.javiersantos.whatsappbetaupdater.enums.UpdaterError;
-import com.javiersantos.whatsappbetaupdater.models.Update;
-import com.javiersantos.whatsappbetaupdater.utils.AppPreferences;
-import com.javiersantos.whatsappbetaupdater.utils.UtilsApp;
-import com.javiersantos.whatsappbetaupdater.utils.UtilsAsync;
-import com.javiersantos.whatsappbetaupdater.utils.UtilsDialog;
-import com.javiersantos.whatsappbetaupdater.utils.UtilsEnum;
-import com.javiersantos.whatsappbetaupdater.utils.UtilsUI;
-import com.javiersantos.whatsappbetaupdater.utils.UtilsWhatsApp;
+import com.kill.whappro.DownloadController;
+import com.kill.whappro.R;
+import com.kill.whappro.WhatsAppBetaUpdaterApplication;
+import com.kill.whappro.asyncs.GetLatestVersion;
+import com.kill.whappro.callback.UpdaterCallback;
+import com.kill.whappro.enums.UpdaterError;
+import com.kill.whappro.models.Update;
+import com.kill.whappro.utils.AppPreferences;
+import com.kill.whappro.utils.UtilsApp;
+import com.kill.whappro.utils.UtilsAsync;
+import com.kill.whappro.utils.UtilsDialog;
+import com.kill.whappro.utils.UtilsEnum;
+import com.kill.whappro.utils.UtilsUI;
+import com.kill.whappro.utils.UtilsWhatsApp;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.material_design_iconic_typeface_library.MaterialDesignIconic;
 import com.pnikosis.materialishprogress.ProgressWheel;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-
 public class MainActivity extends AppCompatActivity implements UpdaterCallback {
     private AppPreferences appPreferences;
     private Boolean doubleBackToExitPressedOnce = false;
-    private Update mUpdate;
 
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
-    @BindView(R.id.whatsapp_latest_version)
-    TextView whatsapp_latest_version;
-    @BindView(R.id.whatsapp_installed_version)
-    TextView whatsapp_installed_version;
-    @BindView(R.id.toolbar_subtitle)
-    TextView toolbar_subtitle;
-    @BindView(R.id.fab)
-    FloatingActionButton fab;
-    @BindView(R.id.progress_wheel)
-    ProgressWheel progressWheel;
-    @BindView(R.id.swipeContainer)
-    SwipeRefreshLayout swipeRefreshLayout;
+    private Toolbar toolbar;
+    private TextView whatsapp_latest_version;
+    private TextView whatsapp_installed_version;
+    private TextView toolbar_subtitle;
+    private FloatingActionButton fab;
+    private ProgressWheel progressWheel;
+    private SwipeRefreshLayout swipeRefreshLayout;
+
+    private DownloadController downloadController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
         setSupportActionBar(toolbar);
+
+        toolbar = findViewById(R.id.toolbar);
+        whatsapp_latest_version = findViewById(R.id.whatsapp_latest_version);
+        whatsapp_installed_version = findViewById(R.id.whatsapp_installed_version);
+        toolbar_subtitle = findViewById(R.id.toolbar_subtitle);
+        fab = findViewById(R.id.fab);
+        progressWheel = findViewById(R.id.progress_wheel);
+        swipeRefreshLayout = findViewById(R.id.swipeContainer);
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                toDownload();
+            }
+        });
 
         this.appPreferences = WhatsAppBetaUpdaterApplication.getAppPreferences();
 
@@ -77,10 +82,12 @@ public class MainActivity extends AppCompatActivity implements UpdaterCallback {
                 }
 
                 @Override
-                public void onLoading() {}
+                public void onLoading() {
+                }
 
                 @Override
-                public void onError(UpdaterError error) {}
+                public void onError(UpdaterError error) {
+                }
             }).execute();
         }
 
@@ -114,6 +121,14 @@ public class MainActivity extends AppCompatActivity implements UpdaterCallback {
         new GetLatestVersion(this, UtilsWhatsApp.getInstalledWhatsAppVersion(this), this).execute();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (downloadController != null) {
+            downloadController.deregisterReceiver();
+        }
+    }
+
     private void checkInstalledWhatsAppVersion() {
         if (UtilsWhatsApp.isWhatsAppInstalled(this)) {
             whatsapp_installed_version.setText(UtilsWhatsApp.getInstalledWhatsAppVersion(this));
@@ -122,9 +137,10 @@ public class MainActivity extends AppCompatActivity implements UpdaterCallback {
         }
     }
 
-    @OnClick(R.id.fab)
     public void toDownload() {
-        new UtilsAsync.DownloadFile(MainActivity.this, UtilsEnum.DownloadType.WHATSAPP_APK, mUpdate).execute();
+        if (downloadController != null) {
+            downloadController.enqueueDownload();
+        }
     }
 
     @Override
@@ -147,7 +163,6 @@ public class MainActivity extends AppCompatActivity implements UpdaterCallback {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
 
-        menu.findItem(R.id.action_donate).setIcon(new IconicsDrawable(this).icon(MaterialDesignIconic.Icon.gmi_paypal_alt).color(Color.WHITE).actionBar());
         menu.findItem(R.id.action_settings).setIcon(new IconicsDrawable(this).icon(MaterialDesignIconic.Icon.gmi_settings).color(Color.WHITE).actionBar());
 
         return true;
@@ -161,9 +176,6 @@ public class MainActivity extends AppCompatActivity implements UpdaterCallback {
             case R.id.action_settings:
                 startActivity(new Intent(this, SettingsActivity.class));
                 break;
-            case R.id.action_donate:
-                UtilsDialog.showDonateDialog(this);
-                break;
         }
 
         return super.onOptionsItemSelected(item);
@@ -171,7 +183,7 @@ public class MainActivity extends AppCompatActivity implements UpdaterCallback {
 
     @Override
     public void onFinished(final Update update, final boolean isUpdateAvailable) {
-        this.mUpdate = update;
+        downloadController = new DownloadController(MainActivity.this, update.getDownloadUrl(), update.getLatestVersion());
         final boolean isWhatsAppInstalled = UtilsWhatsApp.isWhatsAppInstalled(MainActivity.this);
 
         runOnUiThread(new Runnable() {

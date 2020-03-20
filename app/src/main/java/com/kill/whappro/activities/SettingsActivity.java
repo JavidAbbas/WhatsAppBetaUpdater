@@ -1,4 +1,4 @@
-package com.javiersantos.whatsappbetaupdater.activities;
+package com.kill.whappro.activities;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -8,10 +8,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 
-import com.javiersantos.whatsappbetaupdater.R;
-import com.javiersantos.whatsappbetaupdater.WhatsAppBetaUpdaterApplication;
-import com.javiersantos.whatsappbetaupdater.utils.AppPreferences;
-import com.javiersantos.whatsappbetaupdater.utils.UtilsApp;
+import com.kill.whappro.R;
+import com.kill.whappro.WhatsAppBetaUpdaterApplication;
+import com.kill.whappro.utils.AppPreferences;
+import com.kill.whappro.utils.UtilsApp;
 import com.lb.material_preferences_library.PreferenceActivity;
 import com.lb.material_preferences_library.custom_preferences.CheckBoxPreference;
 import com.lb.material_preferences_library.custom_preferences.ListPreference;
